@@ -1,0 +1,9 @@
+Package: fr.pba.springboard
+Name: AlertSpringBoard
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Paul Bancarel
+Author: Paul Bancarel
+Section: Tweaks
