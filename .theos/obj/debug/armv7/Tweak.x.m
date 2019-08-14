@@ -1,5 +1,8 @@
 #line 1 "Tweak.x"
+#import "Tweak.h"
 #import<SpringBoard/SpringBoard.h>
+
+
 
 @interface SBApplicationInfo
 	- (NSString*) displayName;
@@ -35,10 +38,10 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class SBApplicationIcon; 
-static void (*_logos_orig$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$)(_LOGOS_SELF_TYPE_NORMAL SBApplicationIcon* _LOGOS_SELF_CONST, SEL, long long, id, id, id); static void _logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$(_LOGOS_SELF_TYPE_NORMAL SBApplicationIcon* _LOGOS_SELF_CONST, SEL, long long, id, id, id); 
+@class SBIconImageView; @class SBApplicationIcon; @class SBIconView; 
+static void (*_logos_orig$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$)(_LOGOS_SELF_TYPE_NORMAL SBApplicationIcon* _LOGOS_SELF_CONST, SEL, long long, id, id, id); static void _logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$(_LOGOS_SELF_TYPE_NORMAL SBApplicationIcon* _LOGOS_SELF_CONST, SEL, long long, id, id, id); static double (*_logos_meta_orig$_ungrouped$SBIconImageView$cornerRadius)(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL); static double _logos_meta_method$_ungrouped$SBIconImageView$cornerRadius(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$SBIconImageView$didMoveToWindow)(_LOGOS_SELF_TYPE_NORMAL SBIconImageView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$SBIconImageView$didMoveToWindow(_LOGOS_SELF_TYPE_NORMAL SBIconImageView* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$SBIconView$didMoveToWindow)(_LOGOS_SELF_TYPE_NORMAL SBIconView* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$SBIconView$didMoveToWindow(_LOGOS_SELF_TYPE_NORMAL SBIconView* _LOGOS_SELF_CONST, SEL); 
 
-#line 16 "Tweak.x"
+#line 19 "Tweak.x"
 
 
 static void _logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$(_LOGOS_SELF_TYPE_NORMAL SBApplicationIcon* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, long long arg1, id arg2, id arg3, id arg4) {	
@@ -52,6 +55,39 @@ static void _logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$contex
     _logos_orig$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$(self, _cmd, arg1, arg2, arg3, arg4);
 }
 
+
+
+
+@interface SBIconImageView : UIView
+	+ (double) cornerRadius;
+@end
+
+
+static double _logos_meta_method$_ungrouped$SBIconImageView$cornerRadius(_LOGOS_SELF_TYPE_NORMAL Class _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+	return 0;
+}
+
+static void _logos_method$_ungrouped$SBIconImageView$didMoveToWindow(_LOGOS_SELF_TYPE_NORMAL SBIconImageView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+	_logos_orig$_ungrouped$SBIconImageView$didMoveToWindow(self, _cmd);
+	UIImageView *img = MSHookIvar<UIImageView *>(self, "_overlayView");
+	img.layer.cornerRadius = 0;
+	img.layer.masksToBounds = NO;
+}
+
+
+
+
+@protocol SBIconLabelView
+@end
+@interface SBIconView
+	- (UIView<SBIconLabelView> *) labelView;
+@end
+
+static void _logos_method$_ungrouped$SBIconView$didMoveToWindow(_LOGOS_SELF_TYPE_NORMAL SBIconView* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd) {
+	_logos_orig$_ungrouped$SBIconView$didMoveToWindow(self, _cmd);
+	self.labelView.backgroundColor = [UIColor redColor];
+}
+
 static __attribute__((constructor)) void _logosLocalInit() {
-{Class _logos_class$_ungrouped$SBApplicationIcon = objc_getClass("SBApplicationIcon"); MSHookMessageEx(_logos_class$_ungrouped$SBApplicationIcon, @selector(launchFromLocation:context:activationSettings:actions:), (IMP)&_logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$, (IMP*)&_logos_orig$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$);} }
-#line 29 "Tweak.x"
+{Class _logos_class$_ungrouped$SBApplicationIcon = objc_getClass("SBApplicationIcon"); MSHookMessageEx(_logos_class$_ungrouped$SBApplicationIcon, @selector(launchFromLocation:context:activationSettings:actions:), (IMP)&_logos_method$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$, (IMP*)&_logos_orig$_ungrouped$SBApplicationIcon$launchFromLocation$context$activationSettings$actions$);Class _logos_class$_ungrouped$SBIconImageView = objc_getClass("SBIconImageView"); Class _logos_metaclass$_ungrouped$SBIconImageView = object_getClass(_logos_class$_ungrouped$SBIconImageView); MSHookMessageEx(_logos_metaclass$_ungrouped$SBIconImageView, @selector(cornerRadius), (IMP)&_logos_meta_method$_ungrouped$SBIconImageView$cornerRadius, (IMP*)&_logos_meta_orig$_ungrouped$SBIconImageView$cornerRadius);MSHookMessageEx(_logos_class$_ungrouped$SBIconImageView, @selector(didMoveToWindow), (IMP)&_logos_method$_ungrouped$SBIconImageView$didMoveToWindow, (IMP*)&_logos_orig$_ungrouped$SBIconImageView$didMoveToWindow);Class _logos_class$_ungrouped$SBIconView = objc_getClass("SBIconView"); MSHookMessageEx(_logos_class$_ungrouped$SBIconView, @selector(didMoveToWindow), (IMP)&_logos_method$_ungrouped$SBIconView$didMoveToWindow, (IMP*)&_logos_orig$_ungrouped$SBIconView$didMoveToWindow);} }
+#line 65 "Tweak.x"
